@@ -111,63 +111,65 @@ function handleLogout() {
     </button>
 
     <!-- Modal Popup for Google OAuth & Profile Menu -->
-    <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
-      <div class="card auth-dialog">
-        <button class="close-x" @click="showModal = false">×</button>
+    <Teleport to="body">
+      <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
+        <div class="card auth-dialog">
+          <button class="close-x" @click="showModal = false">×</button>
 
-        <template v-if="store.user">
-          <div class="user-info-hdr">
-            <img v-if="store.user.avatar" :src="store.user.avatar" class="lg-avatar" />
-            <div>
-              <h3 style="margin:0">{{ store.user.name }}</h3>
-              <p class="muted" style="margin:0.2rem 0 0; font-size:0.85rem">{{ store.user.email }}</p>
+          <template v-if="store.user">
+            <div class="user-info-hdr">
+              <img v-if="store.user.avatar" :src="store.user.avatar" class="lg-avatar" />
+              <div>
+                <h3 style="margin:0">{{ store.user.name }}</h3>
+                <p class="muted" style="margin:0.2rem 0 0; font-size:0.85rem">{{ store.user.email }}</p>
+              </div>
             </div>
-          </div>
 
-          <div class="quick-nav-list">
-            <RouterLink to="/create-event" class="q-link" @click="showModal = false">
-              ✨ Create Event Link
-            </RouterLink>
-            <RouterLink to="/host-dashboard" class="q-link" @click="showModal = false">
-              🎉 Host Dashboard (Received Funds)
-            </RouterLink>
-            <RouterLink to="/my-sent-gifts" class="q-link" @click="showModal = false">
-              🎁 My Sent Gifts (Giver Ledger)
-            </RouterLink>
-          </div>
+            <div class="quick-nav-list">
+              <RouterLink to="/create-event" class="q-link" @click="showModal = false">
+                ✨ Create Event Link
+              </RouterLink>
+              <RouterLink to="/host-dashboard" class="q-link" @click="showModal = false">
+                🎉 Host Dashboard (Received Funds)
+              </RouterLink>
+              <RouterLink to="/my-sent-gifts" class="q-link" @click="showModal = false">
+                🎁 My Sent Gifts (Giver Ledger)
+              </RouterLink>
+            </div>
 
-          <button class="ghost full-btn" style="border-color:var(--red); color:var(--red); margin-top:1rem" @click="handleLogout">
-            Sign Out
-          </button>
-        </template>
-
-        <template v-else>
-          <div class="auth-title-box">
-            <h3>Google Sign-In Required</h3>
-            <p class="muted" style="font-size:0.88rem; margin-top:0.4rem">
-              Sign in with your Google Account to create event payment links and send gifts to hosts.
-            </p>
-          </div>
-
-          <!-- Official Google Identity Services Button Slot -->
-          <div id="google-auth-btn-slot" class="g-btn-slot" @click="initGoogle"></div>
-
-          <div class="or-line"><span>OR SIGN IN WITH EMAIL</span></div>
-
-          <form class="manual-form" @submit.prevent="submitManualGoogleSign">
-            <label for="m-name">Your Full Name</label>
-            <input id="m-name" v-model="manualName" required placeholder="e.g. Oluwaseun Adebayo" />
-
-            <label for="m-email">Your Google Email Address</label>
-            <input id="m-email" type="email" v-model="manualEmail" required placeholder="e.g. seun@gmail.com" />
-
-            <button type="submit" class="btn full-btn" style="margin-top:0.8rem">
-              Sign In to Spraya
+            <button class="ghost full-btn" style="border-color:var(--red); color:var(--red); margin-top:1rem" @click="handleLogout">
+              Sign Out
             </button>
-          </form>
-        </template>
+          </template>
+
+          <template v-else>
+            <div class="auth-title-box">
+              <h3>Google Sign-In Required</h3>
+              <p class="muted" style="font-size:0.88rem; margin-top:0.4rem">
+                Sign in with your Google Account to create event payment links and send gifts to hosts.
+              </p>
+            </div>
+
+            <!-- Official Google Identity Services Button Slot -->
+            <div id="google-auth-btn-slot" class="g-btn-slot" @click="initGoogle"></div>
+
+            <div class="or-line"><span>OR SIGN IN WITH EMAIL</span></div>
+
+            <form class="manual-form" @submit.prevent="submitManualGoogleSign">
+              <label for="m-name">Your Full Name</label>
+              <input id="m-name" v-model="manualName" required placeholder="e.g. Oluwaseun Adebayo" />
+
+              <label for="m-email">Your Google Email Address</label>
+              <input id="m-email" type="email" v-model="manualEmail" required placeholder="e.g. seun@gmail.com" />
+
+              <button type="submit" class="btn full-btn" style="margin-top:0.8rem">
+                Sign In to Spraya
+              </button>
+            </form>
+          </template>
+        </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
 
@@ -237,19 +239,24 @@ function handleLogout() {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(42, 18, 8, 0.6);
-  backdrop-filter: blur(3px);
-  z-index: 9999;
+  background: rgba(42, 18, 8, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
 }
 .auth-dialog {
   width: 100%;
   max-width: 400px;
   background: #FFFDF5;
   position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: auto;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
 }
 .close-x {
   position: absolute;
